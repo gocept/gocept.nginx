@@ -26,16 +26,27 @@ class Recipe(object):
         self.name = name
         self.options = options
 
-        options.setdefault('nginx', 'nginx')
+        location = options["location"] = os.path.join(
+            buildout["buildout"]["parts-directory"], name)
 
-        options["location"] = os.path.join(
-            buildout["buildout"]["parts-directory"], options['nginx'])
+        if not os.path.exists(location):
+            os.mkdir(location)
+
+        options.setdefault('nginx', 'nginx')
+        options.setdefault('config_file', os.path.join(options['location'],
+                                                       'nginx.conf'))
+        options.setdefault('pid_file', os.path.join(options['location'],
+                                                    'nginx.pid'))
+        options.setdefault('ngnix_location', os.path.join(
+            buildout["buildout"]["parts-directory"], options['nginx']))
 
     def install(self):
         location = self.options["location"]
         # Write the configuration file
-        conf_path = os.path.join(location, 'conf', 'nginx.conf')
-        open(conf_path, 'w').write(self.options['configuration'])
+        conf_path = os.path.join(self.options['config_file'])
+        config_file = file(conf_path, 'w')
+        config_file.write('pid %s;\n' % self.options['pid_file'])
+        config_file.write(self.options['configuration'])
 
         # files
         ctl_path = os.path.join(self.buildout["buildout"]["bin-directory"],
