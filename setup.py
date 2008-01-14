@@ -7,6 +7,7 @@ setup(
     author = "Christian Theune",
     author_email = "ct@gocept.com",
     description = "zc.buildout recipe for configuring an nginx server",
+    long_description=file('README.txt').read(),
     license = "ZPL 2.1",
     keywords = "zope3 buildout nginx",
     classifiers = ["Framework :: Buildout"],
