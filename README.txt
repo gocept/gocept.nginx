@@ -26,8 +26,13 @@ The gocept.nginx recipe allows to configure an ngin in buildout::
 Changes
 =======
 
+0.9.1 (2008-06-18)
+------------------
+
+- Fix configtest command in the generated ctl script.
+
 0.9 (2008-01-14)
-+++
+----------------
 
 - Allowing configuration of config file location.
 
