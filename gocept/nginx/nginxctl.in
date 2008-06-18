@@ -27,7 +27,7 @@ reload)
     ;;
 configtest)
     echo "Testing nginx configuration "
-    $NGINX -t
+    $NGINX -c $CONFIGURATION -t
     ERROR=$?
     ;;
 esac
