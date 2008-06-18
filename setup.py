@@ -3,7 +3,7 @@ from setuptools import setup, find_packages
 name = "gocept.nginx"
 setup(
     name = name,
-    version = "0.9.2dev",
+    version = "0.9.2",
     author = "Christian Theune",
     author_email = "ct@gocept.com",
     description = "zc.buildout recipe for configuring an nginx server",

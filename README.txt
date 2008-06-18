@@ -26,6 +26,11 @@ The gocept.nginx recipe allows to configure an ngin in buildout::
 Changes
 =======
 
+0.9.2 (2008-06-18)
+------------------
+
+- Override accidental -dev release.
+
 0.9.1 (2008-06-18)
 ------------------
 
