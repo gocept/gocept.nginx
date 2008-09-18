@@ -18,7 +18,9 @@ setup(
     namespace_packages = ['gocept'],
     install_requires = [
         'setuptools',
+        'zc.buildout',
     ],
+    extras_require = {'test': ['zope.testing']},
     entry_points = {
         'zc.buildout': [
              'default = %s.recipe:Recipe' % name,
