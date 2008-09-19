@@ -11,14 +11,12 @@ The gocept.nginx recipe allows to configure an nginx in buildout:
 ... [frontend]
 ... recipe = gocept.nginx
 ... configuration = 
-...     error_log = ${frontend:error_log}
 ...     worker_processes 1;
 ...     events {
 ...         worker_connections 1024;
 ...     }
 ...     http {
-...         access_log ${frontend:access_log};
-...         ...
+...         # configuration
 ...     }
 ... """)
 
@@ -65,7 +63,8 @@ esac
 exit $ERROR
 
 In the parts directory the configuration file is created. Note that the PID
-file location is prepended automatically:
+file location is prepended automatically. Also there is a default for
+``access_log`` and ``error_log``
 
 >>> ls('parts')
 d  frontend
@@ -73,14 +72,54 @@ d  frontend
 -  frontend.conf
 >>> cat('parts', 'frontend', 'frontend.conf')
 pid .../_TEST_/sample-buildout/parts/frontend/frontend.pid;
-<BLANKLINE>
+error_log .../_TEST_/sample-buildout/parts/frontend/frontend-error.log;
 worker_processes 1;
 events {
 worker_connections 1024;
 }
-http {}
+http {
+access_log .../_TEST_/sample-buildout/parts/frontend/frontend-access.log;
+# configuration
+}
 
 
+If an ``error_log`` or ``access_log`` statement is specified anywhere in the
+configuration the respective statement will not be added automatically:
+
+>>> write("buildout.cfg", """
+... [buildout]
+... parts = frontend
+...
+... [frontend]
+... recipe = gocept.nginx
+... configuration = 
+...     worker_processes 1;
+...     error_log /dev/null
+...     events {
+...         worker_connections 1024;
+...     }
+...     http {
+...         # configuration
+...         access_log /dev/null
+...     }
+... """)
+
+>>> print system(buildout),
+Uninstalling frontend.
+Installing frontend.
+
+>>> cat('parts', 'frontend', 'frontend.conf')
+pid .../_TEST_/sample-buildout/parts/frontend/frontend.pid;
+<BLANKLINE>
+worker_processes 1;
+error_log /dev/null
+events {
+worker_connections 1024;
+}
+http {
+# configuration
+access_log /dev/null
+}
 
 
 Deployment support
