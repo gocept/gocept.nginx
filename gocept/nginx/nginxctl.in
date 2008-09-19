@@ -25,6 +25,11 @@ reload)
     kill -HUP `cat $PIDFILE`
     error=$?
     ;;
+reopen_transcript)
+    echo "Reopening logfiles"
+    kill -USR1 `cat $PIDFILE`
+    error=$?
+    ;;
 configtest)
     echo "Testing nginx configuration "
     $NGINX -c $CONFIGURATION -t
