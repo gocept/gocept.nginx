@@ -11,11 +11,15 @@ The gocept.nginx recipe allows to configure an nginx in buildout:
 ... [frontend]
 ... recipe = gocept.nginx
 ... configuration = 
+...     error_log = ${frontend:error_log}
 ...     worker_processes 1;
 ...     events {
 ...         worker_connections 1024;
 ...     }
-...     http {}
+...     http {
+...         access_log ${frontend:access_log};
+...         ...
+...     }
 ... """)
 
 >>> print system(buildout),
@@ -75,6 +79,7 @@ events {
 worker_connections 1024;
 }
 http {}
+
 
 
 
