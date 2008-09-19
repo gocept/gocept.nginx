@@ -188,3 +188,9 @@ http {
 access_log logs/testdeploy-frontend-access.log;
 # config
 }
+
+
+If we're in deployment mode log-rotate files are also created:
+
+>>> cat('logrotate', 'deploy-frontend')
+
