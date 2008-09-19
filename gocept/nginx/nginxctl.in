@@ -1,6 +1,6 @@
 #!/bin/sh
 ARGV="$@"
-NGINX='%(ngnix_location)s/sbin/nginx'
+NGINX='%(nginx_location)s/sbin/nginx'
 PIDFILE='%(pid_file)s'
 CONFIGURATION='%(config_file)s'
 
