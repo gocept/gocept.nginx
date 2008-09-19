@@ -154,7 +154,9 @@ deployment specifig locations:
 ...     events {
 ...         worker_connections 1024;
 ...     }
-...     http {}
+...     http {
+...         # config
+...     }
 ... """)
 
 >>> print system(buildout),
@@ -177,10 +179,12 @@ The config file also includes the user now:
 >>> cat('etc', 'testdeploy-frontend.conf')
 pid run/testdeploy-frontend.pid;
 user testuser;
-<BLANKLINE>
+error_log logs/testdeploy-frontend-error.log;
 worker_processes 1;
 events {
 worker_connections 1024;
 }
-http {}
-
+http {
+access_log logs/testdeploy-frontend-access.log;
+# config
+}
