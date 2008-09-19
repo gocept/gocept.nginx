@@ -65,6 +65,8 @@ class Recipe(object):
                                 prefix+self.name)
         pid_path = os.path.join(
             options['run-directory'], prefix+self.name+'.pid')
+        lock_path = os.path.join(
+            options['run-directory'], prefix+self.name+'.lock')
         error_log_path = os.path.join(
             options['log-directory'], prefix+self.name+'-error.log')
         access_log_path = os.path.join(
@@ -74,6 +76,7 @@ class Recipe(object):
         configuration = options['configuration']
         config_file = file(config_path, 'w')
         config_file.write('pid %s;\n' % pid_path)
+        config_file.write('lock_file %s;\n' % lock_path)
         if self.deployment:
             config_file.write('user %s;\n' % options['user'])
         rotate_error_log = rotate_access_log = False

@@ -77,6 +77,7 @@ d  frontend
 -  frontend.conf
 >>> cat('parts', 'frontend', 'frontend.conf')
 pid .../_TEST_/sample-buildout/parts/frontend/frontend.pid;
+lock_file .../_TEST_/sample-buildout/parts/frontend/frontend.lock;
 error_log .../_TEST_/sample-buildout/parts/frontend/frontend-error.log;
 worker_processes 1;
 events {
@@ -115,6 +116,7 @@ Installing frontend.
 
 >>> cat('parts', 'frontend', 'frontend.conf')
 pid .../_TEST_/sample-buildout/parts/frontend/frontend.pid;
+lock_file .../_TEST_/sample-buildout/parts/frontend/frontend.lock;
 <BLANKLINE>
 worker_processes 1;
 error_log /dev/null
@@ -183,6 +185,7 @@ The config file also includes the user now:
 
 >>> cat('etc', 'testdeploy-frontend.conf')
 pid run/testdeploy-frontend.pid;
+lock_file run/testdeploy-frontend.lock;
 user testuser;
 error_log logs/testdeploy-frontend-error.log;
 worker_processes 1;
