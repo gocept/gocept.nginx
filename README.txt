@@ -26,7 +26,7 @@ The gocept.nginx recipe allows to configure an ngin in buildout::
 Changes
 =======
 
-0.9.3 (unreleased)
+0.9.3 (2008-09-19)
 ------------------
 
 - Added support for zc.recipe.deployment / gocept.recipe.deploymentsandbox,
