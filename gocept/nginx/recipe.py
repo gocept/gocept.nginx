@@ -33,6 +33,9 @@ class Recipe(object):
             options['rc-directory'] = buildout[deployment]['rc-directory']
             options['run-directory'] = buildout[deployment]['run-directory']
             options['log-directory'] = buildout[deployment]['log-directory']
+            options['logrotate'] = os.path.join(
+                buildout[deployment]['logrotate-directory'],
+                self.deployment + '-' + self.name)
             options['user'] = buildout[deployment]['user']
         else:
             options["run-directory"] = os.path.join(
@@ -73,12 +76,15 @@ class Recipe(object):
         config_file.write('pid %s;\n' % pid_path)
         if self.deployment:
             config_file.write('user %s;\n' % options['user'])
+        rotate_error_log = rotate_access_log = False
         if re.search(r'^\s*error_log ', configuration, re.M) is None:
             config_file.write('error_log %s;' % error_log_path)
+            rotate_error_log = True
         if re.search(r'^\s*access_log ', configuration, re.M) is None:
             pattern = re.compile(r'^(\s*http\s*{)$', re.M)
             configuration = pattern.sub(
                 '\\1\naccess_log %s;' % access_log_path, configuration)
+            rotate_access_log = True
         config_file.write(configuration)
         config_file.close()
         options.created(config_path)
@@ -92,7 +98,32 @@ class Recipe(object):
         os.chmod(ctl_path, (os.stat(ctl_path).st_mode |
                             stat.S_IXUSR | stat.S_IXGRP | stat.S_IXOTH))
         options.created(ctl_path)
+
+        if self.deployment and (rotate_error_log or rotate_access_log):
+            logrotate_path = options['logrotate']
+            logrotate_file = open(logrotate_path, 'w')
+            if rotate_error_log:
+                logrotate_file.write(logrotate_template % dict(
+                    logfile=error_log_path,
+                    rc=ctl_path))
+            if rotate_access_log:
+                logrotate_file.write(logrotate_template % dict(
+                    logfile=access_log_path,
+                    rc=ctl_path))
+            logrotate_file.close()
+            options.created(logrotate_path)
+
         return options.created()
 
     def update(self):
         pass
+
+
+logrotate_template = """%(logfile)s {
+  rotate 5
+  weekly
+  postrotate
+    %(rc)s reopen_transcript
+  endscript
+}
+"""

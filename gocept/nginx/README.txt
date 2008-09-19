@@ -53,6 +53,11 @@ reload)
     kill -HUP `cat $PIDFILE`
     error=$?
     ;;
+reopen_transcript)
+    echo "Reopening logfiles"
+    kill -USR1 `cat $PIDFILE`
+    error=$?
+    ;;
 configtest)
     echo "Testing nginx configuration "
     $NGINX -c $CONFIGURATION -t
@@ -192,5 +197,60 @@ access_log logs/testdeploy-frontend-access.log;
 
 If we're in deployment mode log-rotate files are also created:
 
->>> cat('logrotate', 'deploy-frontend')
+>>> cat('logrotate', 'testdeploy-frontend')
+logs/testdeploy-frontend-error.log {
+  rotate 5
+  weekly
+  postrotate
+    init.d/testdeploy-frontend reopen_transcript
+  endscript
+}
+logs/testdeploy-frontend-access.log {
+  rotate 5
+  weekly
+  postrotate
+    init.d/testdeploy-frontend reopen_transcript
+  endscript
+}
 
+When a log file is given by the user, no logrotate is created:
+
+>>> write("buildout.cfg", """
+... [buildout]
+... parts = frontend
+...
+... [deploy]
+... user = testuser
+... name = testdeploy
+... etc-directory = etc
+... rc-directory = init.d
+... log-directory = logs
+... run-directory = run
+... logrotate-directory = logrotate
+...
+... [frontend]
+... recipe = gocept.nginx
+... deployment = deploy
+... configuration = 
+...     worker_processes 1;
+...     events {
+...         worker_connections 1024;
+...     }
+...     http {
+...         # config
+...         access_log /dev/null
+...     }
+... """)
+
+>>> print system(buildout),
+Uninstalling frontend.
+Installing frontend.
+
+>>> cat('logrotate', 'testdeploy-frontend')
+logs/testdeploy-frontend-error.log {
+  rotate 5
+  weekly
+  postrotate
+    init.d/testdeploy-frontend reopen_transcript
+  endscript
+}
