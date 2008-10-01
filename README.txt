@@ -26,7 +26,7 @@ The gocept.nginx recipe allows to configure an ngin in buildout::
 Changes
 =======
 
-0.9.4 (unreleased)
+0.9.4 (2008-10-01)
 ------------------
 
 - Added a way to prevent setting the user in nginx.conf when using a deployment
