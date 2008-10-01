@@ -60,17 +60,17 @@ class Recipe(object):
 
         config_path = os.path.join(
             options['etc-directory'],
-            prefix+self.name+'.conf')
+            self.name+'.conf')
         ctl_path = os.path.join(options["rc-directory"],
                                 prefix+self.name)
         pid_path = os.path.join(
-            options['run-directory'], prefix+self.name+'.pid')
+            options['run-directory'], self.name+'.pid')
         lock_path = os.path.join(
-            options['run-directory'], prefix+self.name+'.lock')
+            options['run-directory'], self.name+'.lock')
         error_log_path = os.path.join(
-            options['log-directory'], prefix+self.name+'-error.log')
+            options['log-directory'], self.name+'-error.log')
         access_log_path = os.path.join(
-            options['log-directory'], prefix+self.name+'-access.log')
+            options['log-directory'], self.name+'-access.log')
 
         # Write the configuration file
         configuration = options['configuration']

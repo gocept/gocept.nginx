@@ -177,23 +177,23 @@ The ctl-script is in init.d now:
 #!/bin/sh
 ARGV="$@"
 NGINX='.../_TEST_/sample-buildout/parts/nginx/sbin/nginx'
-PIDFILE='run/testdeploy-frontend.pid'
-CONFIGURATION='etc/testdeploy-frontend.conf'
+PIDFILE='run/frontend.pid'
+CONFIGURATION='etc/frontend.conf'
 ...
 
 The config file also includes the user now:
 
->>> cat('etc', 'testdeploy-frontend.conf')
-pid run/testdeploy-frontend.pid;
-lock_file run/testdeploy-frontend.lock;
+>>> cat('etc', 'frontend.conf')
+pid run/frontend.pid;
+lock_file run/frontend.lock;
 user testuser;
-error_log logs/testdeploy-frontend-error.log;
+error_log logs/frontend-error.log;
 worker_processes 1;
 events {
 worker_connections 1024;
 }
 http {
-access_log logs/testdeploy-frontend-access.log;
+access_log logs/frontend-access.log;
 # config
 }
 
@@ -201,14 +201,14 @@ access_log logs/testdeploy-frontend-access.log;
 If we're in deployment mode log-rotate files are also created:
 
 >>> cat('logrotate', 'testdeploy-frontend')
-logs/testdeploy-frontend-error.log {
+logs/frontend-error.log {
   rotate 5
   weekly
   postrotate
     init.d/testdeploy-frontend reopen_transcript
   endscript
 }
-logs/testdeploy-frontend-access.log {
+logs/frontend-access.log {
   rotate 5
   weekly
   postrotate
@@ -250,7 +250,7 @@ Uninstalling frontend.
 Installing frontend.
 
 >>> cat('logrotate', 'testdeploy-frontend')
-logs/testdeploy-frontend-error.log {
+logs/frontend-error.log {
   rotate 5
   weekly
   postrotate
@@ -293,15 +293,15 @@ the user variable to "empty":
 Uninstalling frontend.
 Installing frontend.
 
->>> cat('etc', 'testdeploy-frontend.conf')
-pid run/testdeploy-frontend.pid;
-lock_file run/testdeploy-frontend.lock;
-error_log logs/testdeploy-frontend-error.log;
+>>> cat('etc', 'frontend.conf')
+pid run/frontend.pid;
+lock_file run/frontend.lock;
+error_log logs/frontend-error.log;
 worker_processes 1;
 events {
 worker_connections 1024;
 }
 http {
-access_log logs/testdeploy-frontend-access.log;
+access_log logs/frontend-access.log;
 # config
 }
