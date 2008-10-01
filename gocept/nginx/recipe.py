@@ -36,7 +36,7 @@ class Recipe(object):
             options['logrotate'] = os.path.join(
                 buildout[deployment]['logrotate-directory'],
                 self.deployment + '-' + self.name)
-            options['user'] = buildout[deployment]['user']
+            options.setdefault('user', buildout[deployment]['user'])
         else:
             options["run-directory"] = os.path.join(
                 buildout["buildout"]["parts-directory"], name)
@@ -77,7 +77,7 @@ class Recipe(object):
         config_file = file(config_path, 'w')
         config_file.write('pid %s;\n' % pid_path)
         config_file.write('lock_file %s;\n' % lock_path)
-        if self.deployment:
+        if options.get('user'):
             config_file.write('user %s;\n' % options['user'])
         rotate_error_log = rotate_access_log = False
         if re.search(r'^\s*error_log ', configuration, re.M) is None:
