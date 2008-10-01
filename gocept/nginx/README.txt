@@ -257,3 +257,51 @@ logs/testdeploy-frontend-error.log {
     init.d/testdeploy-frontend reopen_transcript
   endscript
 }
+
+
+Setting the user in the nginx config only works when nginx is started as root.
+Since that is often not the case setting the user can be prevented by setting
+the user variable to "empty":
+
+>>> write("buildout.cfg", """
+... [buildout]
+... parts = frontend
+...
+... [deploy]
+... user = testuser
+... name = testdeploy
+... etc-directory = etc
+... rc-directory = init.d
+... log-directory = logs
+... run-directory = run
+... logrotate-directory = logrotate
+...
+... [frontend]
+... recipe = gocept.nginx
+... deployment = deploy
+... user =
+... configuration = 
+...     worker_processes 1;
+...     events {
+...         worker_connections 1024;
+...     }
+...     http {
+...         # config
+...     }
+... """)
+>>> print system(buildout),
+Uninstalling frontend.
+Installing frontend.
+
+>>> cat('etc', 'testdeploy-frontend.conf')
+pid run/testdeploy-frontend.pid;
+lock_file run/testdeploy-frontend.lock;
+error_log logs/testdeploy-frontend-error.log;
+worker_processes 1;
+events {
+worker_connections 1024;
+}
+http {
+access_log logs/testdeploy-frontend-access.log;
+# config
+}

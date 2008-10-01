@@ -29,6 +29,9 @@ Changes
 0.9.4 (unreleased)
 ------------------
 
+- Added a way to prevent setting the user in nginx.conf when using a deployment
+  recipe.
+
 0.9.3 (2008-09-19)
 ------------------
 
