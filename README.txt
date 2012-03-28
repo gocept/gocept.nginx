@@ -5,7 +5,7 @@ NGNIX configuration recipe
 The gocept.nginx recipe allows to configure an nginx server in buildout::
 
     [ngnix]
-    recipe = gocept.cmmi
+    recipe = zc.recipe.cmmi
     url = http://sysoev.ru/nginx/nginx-0.5.30.tar.gz
     md5sum = 804cf3d6583fe820de42c5e7c50d7a1a
 
