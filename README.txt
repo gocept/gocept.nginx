@@ -29,6 +29,8 @@ Changes
 0.9.5 (unreleased)
 ------------------
 
+- Updated test to pass with current versions of zc.buildout.
+
 0.9.4 (2008-10-01)
 ------------------
 

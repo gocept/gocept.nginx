@@ -72,6 +72,7 @@ file location is prepended automatically. Also there is a default for
 ``access_log`` and ``error_log``
 
 >>> ls('parts')
+d  buildout
 d  frontend
 >>> ls('parts', 'frontend')
 -  frontend.conf
