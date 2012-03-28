@@ -2,7 +2,7 @@
 NGNIX configuration recipe
 ==========================
 
-The gocept.nginx recipe allows to configure an ngin in buildout::
+The gocept.nginx recipe allows to configure an nginx server in buildout::
 
     [ngnix]
     recipe = gocept.cmmi
