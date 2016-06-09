@@ -13,7 +13,7 @@ The gocept.nginx recipe allows to configure an nginx server in buildout::
     recipe = gocept.nginx
     hostname = localhost
     port = 8080
-    configuration = 
+    configuration =
         worker_processes 1;
         events {
             worker_connections 1024;
@@ -28,6 +28,8 @@ Changes
 
 0.9.5 (unreleased)
 ------------------
+
+- Migrate repository to Bitbucket.
 
 - Updated test to pass with current versions of zc.buildout.
 
